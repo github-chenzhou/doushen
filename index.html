@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>欢迎使用豆神</title>
+	<meta name="renderer" content="webkit">
+	<meta content="IE=edge" http-equiv="X-UA-Compatible">
+	<meta name="apple-touch-fullscreen" content="yes">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<meta content="yes" name="apple-mobile-web-app-capable">
+	<meta content="black" name="apple-mobile-web-app-status-bar-style">
+	<!-- 禁止数字串被处理为电话号码 -->
+	<meta name="format-detection" content="telephone=no">
+	<meta name="keywords" content="豆瓣 读书 电影 活动 陈舟 豆神"/>
+	<meta name="description"
+		  content="豆瓣 读书 电影 活动 陈舟 豆神"/>
+	<meta name="author" content="陈舟"/>
+	<meta name="copyright" content="© 豆神"/>
+	<link rel="shortcut icon" href=./favicon.ico" type="image/x-icon"/>
+	<link rel="stylesheet" type="text/css" href="/css/webfont/style.css"/>
+	<link rel="stylesheet" type="text/css" href="/css/mobile/index.min.css"/>
+	<!-- <script type="text/javascript" src="/js/requirejqueryunderscorebackbone.min.js"></script> -->
+	<script type="text/javascript" 
+	    src="/js/require.2.1.9-jquery.2.0.3-underscore.1.5.2-backbone.1.0.0.js"></script>
+	<script type="text/javascript" src="/js/mobile.js"></script>
+</head>
+<body>
+	<!--首页视图-->
+	<section class="m_index J_index">
+
+		<!--首页导航 -->
+		<div class="m_index_nav">
+		    <header class="banner flex_box J_index_head">
+                <div class="top_user_info">
+                </div>
+                <a href="javascript:;" class="publish_btn"><span class="icon-edit"></span></a>
+            </header>
+			<nav class="top_navgination flex_equal">
+				<a href="javascript:;" class="flex_item nav_item J_nav_movies current">电影</a>
+				<a href="javascript:;" class="flex_item nav_item J_nav_books">图书</a>
+				<a href="javascript:;" class="flex_item nav_item J_nav_onlines">活动<span class="J_unreads"></span></a>
+			</nav>
+		</div>
+
+		<!--首页列表 -->
+		<div class="m_index_list J_index_list">
+			<!--电影列表 -->
+			<section class="view now J_movies_area">
+				<section class="feed_list J_movies"></section>
+				<a href="javascript:;" class="showMore J_movies_more">获取更多内容</a>
+			</section>
+
+			<!--图书列表 -->
+			<section class="view J_books_area">
+			    <section class="feed_list clearfix J_books">
+			    	<ul class="books J_books_left"></ul>
+			    	<ul class="books J_books_right"></ul>
+			    </section>
+			    <a href="javascript:;" class="showMore J_books_more">获取更多内容</a>
+			</section>
+
+			<!--活动列表 -->
+			<section class="view J_onlines_area">
+			    <section data-tpl-name="onlines" class="message_wrap J_onlines">
+					<!--TODO: 评论-->
+					<div class="avatar_box msg_item clearfix isActive J_onlines_comment">
+					</div>
+					<!--应用消息-->
+					<div class="avatar_box msg_item clearfix J_onlines_apply">
+					</div>
+					<!--系统消息-->
+					<div class="avatar_box msg_item clearfix J_onlines_sys">
+					</div>
+					<!--TODO: 新粉丝-->
+					<div class="avatar_box msg_item clearfix J_onlines_follow">
+					</div>
+			    </section>
+				<a href="javascript:;" class="showMore J_onlines_more">获取更多内容</a>
+			</section>
+		</div>
+
+	</section>
+
+
+	<!--TODO: 左侧导航页-->
+	<section class="page J_nav">
+	</section>
+
+
+	<!--TODO: 详情视图 -->
+	<section class="page bg_wrap J_info">
+	</section>
+
+
+	<!--TODO: 返回顶部 反馈等 -->
+	<a href="javascript:;" class="gotoTop hide"><span class="icon-arrow-up"></span></a>
+
+
+	<script type="text/javascript" src="/js/mobile/m.js"></script>
+	<script>
+	    var $Index = null, $appRouter = null, $tipbox = null;
+
+		require( [ 'index', 'router', 'tipbox' ], function( Index, AppRouter, tipbox ) {
+			// 初始化路由
+            $appRouter = new AppRouter;
+            Backbone.history.start();
+            // 提示框
+            $tipbox = tipbox;
+		});
+	</script>
+	<script type="text/javascript" src="/js/mobile/plugins.js"></script>
+</body>
+</html>
