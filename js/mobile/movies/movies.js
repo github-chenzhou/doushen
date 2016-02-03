@@ -7,6 +7,12 @@
 
 define( 'movies', ['config', 'juicer', 'template', 'ajax', 'util', 'movieInfo' ],
     function ($config, juicer, tpl, Ajax, util, info ) {
+        // 
+        juicer.register('setSytle', function (src) {
+        	    util.loadImg(src);
+                return src;
+            }
+        );
 
         var Movies = Backbone.View.extend({
             el: $(".J_movies_area"),
@@ -51,7 +57,7 @@ define( 'movies', ['config', 'juicer', 'template', 'ajax', 'util', 'movieInfo' ]
                 // https://api.douban.com/v2/movie/search?q=%E7%BB%8F%E5%85%B8
                
                 Ajax.get($config.INDEX.GET_MOVIES, 
-                    {'q': q, 'tag': tag, 'start': start, 'count': pageSize }, 
+                    {'q': q, 'tag': tag, 'start': start, 'count': pageSize, apikey:'0c9ca568e0e58e2025d5f03aa2b0aa60' }, 
                     function (json) {
                     if ( json.count ) {
                         var data = json.subjects;
@@ -103,7 +109,6 @@ define( 'movies', ['config', 'juicer', 'template', 'ajax', 'util', 'movieInfo' ]
 
                     obj.actors = actors;
                     obj.imgs = imgs;
-                    // feedUtil.formatData(obj);
                 });
             },
 
@@ -124,12 +129,6 @@ define( 'movies', ['config', 'juicer', 'template', 'ajax', 'util', 'movieInfo' ]
                     list: data,
                     viewName: 'movies'
                 }));
-            },
-
-            /**
-             * 进入电影详情页
-            */
-            itemTap: function ( id, cb ) {
             },
 
             getMore: function (e) {
@@ -155,7 +154,6 @@ define( 'movies', ['config', 'juicer', 'template', 'ajax', 'util', 'movieInfo' ]
             handleEvent: function (event) {
                 var _this = this;
 
-                // console.log(event.type);
                 if (event.type == 'touchstart') {
                     _this.start(event);
                 } else if (event.type == 'touchmove') {

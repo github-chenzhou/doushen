@@ -24,6 +24,7 @@
     background-color:#9acf76;
     background-image: url("/images/mobile/banner.jpg");
     background-position: center;
+    background-size: 100% 100%;
     /*background-attachment: fixed;*/
 }
 .top_user .publish_btn {
@@ -638,22 +639,33 @@ span.star {
 
 ul.books {
     float: left;
-    padding: 0.125rem;
+    padding: 0.25rem;
     list-style: none;
-    background-color:#fff;
+    background-color:#ccc;
+}
+.books.books-left{
+    padding-right: 0.125rem;
+}
+books.books-right{
+    padding-left: 0.125rem;
 }
 .book_box {
-    width: 7.75rem;
-    padding-top:0.35rem;
-    word-break:break-all;
+    width: 7.5rem;
+    min-height: 8rem;
+    margin-top: .35rem;
+    word-break: break-all;
+    border-radius: 0.25rem;
+    background-color: #fff;
 }
 
 .book_box img {
     width: 100%;
+    border-radius: .25rem .25rem 0 0;
 }
 
 .book_box .title {
     font-size: 0.55rem;
+    padding: 0.25rem 0 0.5rem 0;
     white-space: nowrap;
     line-height: 1rem;
     overflow: hidden;
@@ -669,6 +681,7 @@ ul.books {
 .m_index_nav {
     position: fixed;
     top: 0;
+    width: 100%;
     min-height: 3.9rem;
     height: 3.9rem;
     /* fixed UC 不能100%宽度 
@@ -941,7 +954,7 @@ html, body {
     position: fixed;
     bottom: 0;
     width: 100%;
-    max-width: 640px;
+    /*max-width: 640px;*/
 }
 
 .info_pics_summary {
@@ -959,7 +972,7 @@ html, body {
 .info_pics {
     height: 90%;
     width: 100%;
-    max-width: 640px;
+    /*max-width: 640px;*/
     overflow: hidden;
     position: absolute;
     top: 1.5rem;

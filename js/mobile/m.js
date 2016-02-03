@@ -265,41 +265,45 @@ define( 'util', function () {
          * 图片预加载
          * @param src
          */
-        loadImg: function (src, dataId) {
-            if (!src) {
-                return;
-            }
-            // height / width = 075
-            var standardRatio = 0.75;
-            var fixWidth = 280;
-            var fixHeight = 210;
+        loadImg: function (src) {
+            if (!src)  return;
+
+            var fixWidth = lib.flexible.rem2px(7);
+            var fixHeight = lib.flexible.rem2px(5.25);
             var preloadImg = new Image();
-            var selector = '.feed_pic_list li img[data-id="' + dataId + '"]';
+            var selector = '.J_feed_img[data-src="' + src + '"]';
 
             preloadImg.onload = function () {
                 preloadImg.onload = null;
+                var imgEl = $( selector );
 
-                var width = preloadImg.width;
-                var height = preloadImg.height;
-                var origiRatio = parseFloat((height / width).toFixed(3)) * 1000;
-                var minRatio = (standardRatio - 0.2) * 1000;
-                var maxRatio = (standardRatio + 0.2) * 1000;
-                var ratio = standardRatio * 1000;
+                var standardRatio = 5.25/7;
+                fixWidth = fixWidth || 212;
+                fixHeight = fixHeight || 159;
 
-                //console.log(selector + ' 宽高比 ' + origiRatio);
+                var width = imgEl.width() || fixWidth;
+                var height = imgEl.height() || fixHeight;
+                var origiRatio = height / width;
+
                 // 特别小的图标
-                if (width < 150 && height < 150) {
-                    $(selector).attr('width', width).attr('height', height);
-                } else if (minRatio < origiRatio && origiRatio < ratio || origiRatio > 1100) {
-                    // 宽高比相似 或者 高很大
-                    $(selector).attr('height', fixHeight);
-                } else if (ratio < origiRatio && origiRatio < maxRatio || origiRatio < 400) {
-                    // 宽高比相似 或者 宽大很多
-                    $(selector).attr('width', fixWidth);
+                if ( width < 100 && height < 100 ) {
+                    imgEl.attr('width', width).attr('height', height);
+                } else if ( standardRatio < origiRatio ) {
+                    // 高比较大
+                    var reHeight =  fixWidth * height / width;
+                    imgEl.attr( 'width', fixWidth);
+                    imgEl.attr('height', reHeight );
+                } else if ( origiRatio < standardRatio ) {
+                    // 宽大很多
+                    var reWidth = fixHeight * width / height;
+                    var marginLeft = (fixWidth - reWidth) / 2;
+                    imgEl.attr( 'height', fixHeight );
+                    imgEl.attr('width', reWidth);
+                    imgEl.css( 'marginLeft', marginLeft );
                 } else {
-                    // 宽大很多 // 高大很多
-                    //var reHeight = height / width * fixWidth;
-                    $(selector).attr('width', fixWidth);
+                    // 宽 高 相似
+                    imgEl.attr( 'width', fixWidth);
+                    imgEl.attr('height', fixHeight );
                 }
             };
 
@@ -620,20 +624,6 @@ define( 'config', function ($config) {
 
 define( 'template', ['config'], function ($config) {
     return {
-
-        INDEX_HEAD_TPL: [
-            '<div class="top_user_info">',
-            '<a href="#index/space/{{data.userId}}">',
-                '<img src="{{data.userId}}.jpg" />',
-            '<span class="user_name">{{data.userName}}</span>',
-            '</a></div>',
-            '<a href="javascript:;" class="publish_btn"><span class="icon-edit"></span></a>'
-        ].join(),
-
-
-
-
-
         /*------------------------------*\
             电影
         \*------------------------------*/
@@ -681,7 +671,7 @@ define( 'template', ['config'], function ($config) {
             '{@each item.imgs as img, index}',
             '{@if index < 4 }',
             '<li><span class="pic_wrap">',
-            '<img src="{{img}}"/>',
+            '<img src="{{img}}" class="J_feed_img" data-src="{{img|setSytle}}" />',
             '<i class="valign"></i></span></li>',
             '{@/if}',
             '{@/each}',
@@ -1316,14 +1306,6 @@ define( 'movieInfo', [ 'config', 'juicer', 'template', 'ajax', 'util', 'picUtil'
                     $('.J_actors').html(juicer(tpl.MOVIE_ACTOR_TPL, {list: actors}));
 
                     if (typeof callback === 'function' ) callback({});
-                                    
-                    // 格式化数据
-                    //obj.templateInfo = JSON.parse( obj.templateInfo );
-                    // info.createDate = util.timeFormat(parseInt(baseData.createDate, 10));
-
-                    // 存在评论 取出
-                    // if ( data.comments_count ) _this.getComments( id, 0, pageSzie);
-                    // if (statistics.commentCount < 10) $('.J_info_commons_more').hide();
                 });
 
             },
@@ -1514,27 +1496,8 @@ define( 'movieInfo', [ 'config', 'juicer', 'template', 'ajax', 'util', 'picUtil'
                     //index.addClass('old_page in').removeClass('hide');
                 prev.show().addClass('old_page in');
 
-                    /*
-                     info.addClass('show out').on( 'webkitTransitionEnd', function() {
-                     info.off( 'webkitTransitionEnd' );
-                     info.removeClass('current show out');
-                     } );
-
-                     index.removeClass('hide').addClass('old_page in').on( 'webkitTransitionEnd', function() {
-                     index.off( 'webkitTransitionEnd' );
-                     index.removeClass('old_page in');
-                     } );
-                     */
-
-                    //$appRouter.navigate("", {trigger: false, replace: true});
-                    //if(currentRecordId) document.getElementById(currentRecordId).scrollIntoView();
+                
                 setTimeout(function () {
-                            //info.removeClass('current show out');
-                            //index.removeClass('old_page in').addClass('');
-                            //if(currentRecordId) document.getElementById(currentRecordId).scrollIntoView();
-                            // TODO: 暂停视频播放
-                        // $('video').trigger('pause');
-                            // 清理详情结构
                         info.html('');
 
                         info.removeClass('current show out');
@@ -1559,6 +1522,12 @@ define( 'movieInfo', [ 'config', 'juicer', 'template', 'ajax', 'util', 'picUtil'
 
 define( 'movies', ['config', 'juicer', 'template', 'ajax', 'util', 'movieInfo' ],
     function ($config, juicer, tpl, Ajax, util, info ) {
+        // 
+        juicer.register('setSytle', function (src) {
+        	    util.loadImg(src);
+                return src;
+            }
+        );
 
         var Movies = Backbone.View.extend({
             el: $(".J_movies_area"),
@@ -1603,7 +1572,7 @@ define( 'movies', ['config', 'juicer', 'template', 'ajax', 'util', 'movieInfo' ]
                 // https://api.douban.com/v2/movie/search?q=%E7%BB%8F%E5%85%B8
                
                 Ajax.get($config.INDEX.GET_MOVIES, 
-                    {'q': q, 'tag': tag, 'start': start, 'count': pageSize }, 
+                    {'q': q, 'tag': tag, 'start': start, 'count': pageSize, apikey:'0c9ca568e0e58e2025d5f03aa2b0aa60' }, 
                     function (json) {
                     if ( json.count ) {
                         var data = json.subjects;
@@ -1655,7 +1624,6 @@ define( 'movies', ['config', 'juicer', 'template', 'ajax', 'util', 'movieInfo' ]
 
                     obj.actors = actors;
                     obj.imgs = imgs;
-                    // feedUtil.formatData(obj);
                 });
             },
 
@@ -1676,12 +1644,6 @@ define( 'movies', ['config', 'juicer', 'template', 'ajax', 'util', 'movieInfo' ]
                     list: data,
                     viewName: 'movies'
                 }));
-            },
-
-            /**
-             * 进入电影详情页
-            */
-            itemTap: function ( id, cb ) {
             },
 
             getMore: function (e) {
@@ -1707,7 +1669,6 @@ define( 'movies', ['config', 'juicer', 'template', 'ajax', 'util', 'movieInfo' ]
             handleEvent: function (event) {
                 var _this = this;
 
-                // console.log(event.type);
                 if (event.type == 'touchstart') {
                     _this.start(event);
                 } else if (event.type == 'touchmove') {
@@ -1993,7 +1954,7 @@ define( 'books', [ 'config', 'juicer', 'template', 'ajax' ],
         options:{
             // 页数 每页十条
             pageNo: 0,
-            pageSize: 4,
+            pageSize: 6,
             // 
             tag: '经典',
             query: ''
@@ -2023,12 +1984,17 @@ define( 'books', [ 'config', 'juicer', 'template', 'ajax' ],
             var tag = this.options.tag || '经典';
 
             Ajax.get( $config.INDEX.GET_BOOKS, 
-                {'q': q, 'tag': tag, 'start': start, 'count': pageSize }, 
+                {'q': q, 'tag': tag, 'start': start, 'count': pageSize, apikey:'0c9ca568e0e58e2025d5f03aa2b0aa60' }, 
                 function( json ) {
                 if( json ) {
                     var data = json.books;
-                    // _this.formatData( data );
-                    
+                  
+                    _.each( data, function(item){
+                        var img = new Image();
+                        img.src = item.images["large"];
+
+                    });
+
                     _this.render( data );
                     _this.options.pageNo = pageNo;
                 }
@@ -2111,6 +2077,15 @@ define( 'books', [ 'config', 'juicer', 'template', 'ajax' ],
                 };
 
                 this.offset = offset;
+
+                var xOffset = Math.abs(offset['X']) || 0;
+                // 向下滑动 增加开关量 做限制
+                if ( !this.isLoading && offset['Y'] < 0  && Math.abs( offset['Y'] + xOffset ) > 10 ) {
+                    var wrapper = this.el;
+                    if( wrapper.scrollHeight - wrapper.clientHeight - wrapper.scrollTop < wrapper.clientHeight ) {
+                        this.getMore( event );
+                    }
+                }
             }
         },
 
@@ -2130,7 +2105,7 @@ define( 'books', [ 'config', 'juicer', 'template', 'ajax' ],
             // TODO: 向下滑动 增加开关量 做限制
             if ( !this.isLoading && offset['Y'] < 0  && Math.abs( offset['Y'] + xOffset ) > 10  ) {
                 var wrapper = this.el;
-                if( wrapper.scrollHeight - wrapper.clientHeight - wrapper.scrollTop < 350 ) {
+                if( wrapper.scrollHeight - wrapper.clientHeight - wrapper.scrollTop < wrapper.clientHeight ) {
                     this.getMore( event );
                 }
             } else {

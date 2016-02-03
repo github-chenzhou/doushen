@@ -25,16 +25,7 @@ module.exports = function (grunt) {
     },
 
     // 脚本验证
-    jshint: {
-      options: {
-        //jshintrc: '.jshintrc',
-        reporter: require('jshint-stylish')
-      },
-      all: [
-        'Gruntfile.js',
-        '<%= config.app %>/js/mobile/{,*/}*.js'
-      ]
-    },
+
 
     // Compiles Sass to CSS and generates necessary files if requested
     sass: {
@@ -88,8 +79,7 @@ module.exports = function (grunt) {
               '<%= config.app%>/js/mobile/movies/pictureActions.js',
               '<%= config.app%>/js/mobile/movies/info.js', 
               '<%= config.app%>/js/mobile/movies/movies.js', 
-              '<%= config.app%>/js/mobile/onlines/onlines.js',
-              // '<%= config.app%>/js/mobile/onlines/info.js',  
+              '<%= config.app%>/js/mobile/onlines/onlines.js', 
               '<%= config.app%>/js/mobile/books/books.js',
               '<%= config.app%>/js/mobile/books/info.js', 
               '<%= config.app%>/js/mobile/index.js'
@@ -252,7 +242,7 @@ module.exports = function (grunt) {
     
   
   //grunt.loadNpmTasks('grunt-contrib-sass');    //sass
-  grunt.loadNpmTasks('grunt-contrib-jshint');  //检查JavaScript语法
+  // grunt.loadNpmTasks('grunt-contrib-jshint');  //检查JavaScript语法
   grunt.loadNpmTasks('grunt-contrib-uglify');  //压缩以及合并JavaScript文件
   grunt.loadNpmTasks('grunt-contrib-concat');  //合并文件
   grunt.loadNpmTasks('grunt-contrib-cssmin');  //压缩以及合并CSS文件
@@ -264,9 +254,6 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-autoprefixer');// 
 
 
-  grunt.registerTask('check', [
-    'jshint'
-  ]);
 
   grunt.registerTask('build', [
     'clean',

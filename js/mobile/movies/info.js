@@ -68,14 +68,6 @@ define( 'movieInfo', [ 'config', 'juicer', 'template', 'ajax', 'util', 'picUtil'
                     $('.J_actors').html(juicer(tpl.MOVIE_ACTOR_TPL, {list: actors}));
 
                     if (typeof callback === 'function' ) callback({});
-                                    
-                    // 格式化数据
-                    //obj.templateInfo = JSON.parse( obj.templateInfo );
-                    // info.createDate = util.timeFormat(parseInt(baseData.createDate, 10));
-
-                    // 存在评论 取出
-                    // if ( data.comments_count ) _this.getComments( id, 0, pageSzie);
-                    // if (statistics.commentCount < 10) $('.J_info_commons_more').hide();
                 });
 
             },
@@ -266,27 +258,8 @@ define( 'movieInfo', [ 'config', 'juicer', 'template', 'ajax', 'util', 'picUtil'
                     //index.addClass('old_page in').removeClass('hide');
                 prev.show().addClass('old_page in');
 
-                    /*
-                     info.addClass('show out').on( 'webkitTransitionEnd', function() {
-                     info.off( 'webkitTransitionEnd' );
-                     info.removeClass('current show out');
-                     } );
-
-                     index.removeClass('hide').addClass('old_page in').on( 'webkitTransitionEnd', function() {
-                     index.off( 'webkitTransitionEnd' );
-                     index.removeClass('old_page in');
-                     } );
-                     */
-
-                    //$appRouter.navigate("", {trigger: false, replace: true});
-                    //if(currentRecordId) document.getElementById(currentRecordId).scrollIntoView();
+                
                 setTimeout(function () {
-                            //info.removeClass('current show out');
-                            //index.removeClass('old_page in').addClass('');
-                            //if(currentRecordId) document.getElementById(currentRecordId).scrollIntoView();
-                            // TODO: 暂停视频播放
-                        // $('video').trigger('pause');
-                            // 清理详情结构
                         info.html('');
 
                         info.removeClass('current show out');

@@ -7,20 +7,6 @@
 
 define( 'template', ['config'], function ($config) {
     return {
-
-        INDEX_HEAD_TPL: [
-            '<div class="top_user_info">',
-            '<a href="#index/space/{{data.userId}}">',
-                '<img src="{{data.userId}}.jpg" />',
-            '<span class="user_name">{{data.userName}}</span>',
-            '</a></div>',
-            '<a href="javascript:;" class="publish_btn"><span class="icon-edit"></span></a>'
-        ].join(),
-
-
-
-
-
         /*------------------------------*\
             电影
         \*------------------------------*/
@@ -68,7 +54,7 @@ define( 'template', ['config'], function ($config) {
             '{@each item.imgs as img, index}',
             '{@if index < 4 }',
             '<li><span class="pic_wrap">',
-            '<img src="{{img}}"/>',
+            '<img src="{{img}}" class="J_feed_img" data-src="{{img|setSytle}}" />',
             '<i class="valign"></i></span></li>',
             '{@/if}',
             '{@/each}',

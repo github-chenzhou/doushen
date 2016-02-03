@@ -17,7 +17,7 @@ define( 'books', [ 'config', 'juicer', 'template', 'ajax' ],
         options:{
             // 页数 每页十条
             pageNo: 0,
-            pageSize: 4,
+            pageSize: 6,
             // 
             tag: '经典',
             query: ''
@@ -47,12 +47,17 @@ define( 'books', [ 'config', 'juicer', 'template', 'ajax' ],
             var tag = this.options.tag || '经典';
 
             Ajax.get( $config.INDEX.GET_BOOKS, 
-                {'q': q, 'tag': tag, 'start': start, 'count': pageSize }, 
+                {'q': q, 'tag': tag, 'start': start, 'count': pageSize, apikey:'0c9ca568e0e58e2025d5f03aa2b0aa60' }, 
                 function( json ) {
                 if( json ) {
                     var data = json.books;
-                    // _this.formatData( data );
-                    
+                  
+                    _.each( data, function(item){
+                        var img = new Image();
+                        img.src = item.images["large"];
+
+                    });
+
                     _this.render( data );
                     _this.options.pageNo = pageNo;
                 }
@@ -135,6 +140,15 @@ define( 'books', [ 'config', 'juicer', 'template', 'ajax' ],
                 };
 
                 this.offset = offset;
+
+                var xOffset = Math.abs(offset['X']) || 0;
+                // 向下滑动 增加开关量 做限制
+                if ( !this.isLoading && offset['Y'] < 0  && Math.abs( offset['Y'] + xOffset ) > 10 ) {
+                    var wrapper = this.el;
+                    if( wrapper.scrollHeight - wrapper.clientHeight - wrapper.scrollTop < wrapper.clientHeight ) {
+                        this.getMore( event );
+                    }
+                }
             }
         },
 
@@ -154,7 +168,7 @@ define( 'books', [ 'config', 'juicer', 'template', 'ajax' ],
             // TODO: 向下滑动 增加开关量 做限制
             if ( !this.isLoading && offset['Y'] < 0  && Math.abs( offset['Y'] + xOffset ) > 10  ) {
                 var wrapper = this.el;
-                if( wrapper.scrollHeight - wrapper.clientHeight - wrapper.scrollTop < 350 ) {
+                if( wrapper.scrollHeight - wrapper.clientHeight - wrapper.scrollTop < wrapper.clientHeight ) {
                     this.getMore( event );
                 }
             } else {

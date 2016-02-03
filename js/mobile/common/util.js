@@ -54,41 +54,45 @@ define( 'util', function () {
          * 图片预加载
          * @param src
          */
-        loadImg: function (src, dataId) {
-            if (!src) {
-                return;
-            }
-            // height / width = 075
-            var standardRatio = 0.75;
-            var fixWidth = 280;
-            var fixHeight = 210;
+        loadImg: function (src) {
+            if (!src)  return;
+
+            var fixWidth = lib.flexible.rem2px(7);
+            var fixHeight = lib.flexible.rem2px(5.25);
             var preloadImg = new Image();
-            var selector = '.feed_pic_list li img[data-id="' + dataId + '"]';
+            var selector = '.J_feed_img[data-src="' + src + '"]';
 
             preloadImg.onload = function () {
                 preloadImg.onload = null;
+                var imgEl = $( selector );
 
-                var width = preloadImg.width;
-                var height = preloadImg.height;
-                var origiRatio = parseFloat((height / width).toFixed(3)) * 1000;
-                var minRatio = (standardRatio - 0.2) * 1000;
-                var maxRatio = (standardRatio + 0.2) * 1000;
-                var ratio = standardRatio * 1000;
+                var standardRatio = 5.25/7;
+                fixWidth = fixWidth || 212;
+                fixHeight = fixHeight || 159;
 
-                //console.log(selector + ' 宽高比 ' + origiRatio);
+                var width = imgEl.width() || fixWidth;
+                var height = imgEl.height() || fixHeight;
+                var origiRatio = height / width;
+
                 // 特别小的图标
-                if (width < 150 && height < 150) {
-                    $(selector).attr('width', width).attr('height', height);
-                } else if (minRatio < origiRatio && origiRatio < ratio || origiRatio > 1100) {
-                    // 宽高比相似 或者 高很大
-                    $(selector).attr('height', fixHeight);
-                } else if (ratio < origiRatio && origiRatio < maxRatio || origiRatio < 400) {
-                    // 宽高比相似 或者 宽大很多
-                    $(selector).attr('width', fixWidth);
+                if ( width < 100 && height < 100 ) {
+                    imgEl.attr('width', width).attr('height', height);
+                } else if ( standardRatio < origiRatio ) {
+                    // 高比较大
+                    var reHeight =  fixWidth * height / width;
+                    imgEl.attr( 'width', fixWidth);
+                    imgEl.attr('height', reHeight );
+                } else if ( origiRatio < standardRatio ) {
+                    // 宽大很多
+                    var reWidth = fixHeight * width / height;
+                    var marginLeft = (fixWidth - reWidth) / 2;
+                    imgEl.attr( 'height', fixHeight );
+                    imgEl.attr('width', reWidth);
+                    imgEl.css( 'marginLeft', marginLeft );
                 } else {
-                    // 宽大很多 // 高大很多
-                    //var reHeight = height / width * fixWidth;
-                    $(selector).attr('width', fixWidth);
+                    // 宽 高 相似
+                    imgEl.attr( 'width', fixWidth);
+                    imgEl.attr('height', fixHeight );
                 }
             };
 

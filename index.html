@@ -6,7 +6,9 @@
 	<meta name="renderer" content="webkit">
 	<meta content="IE=edge" http-equiv="X-UA-Compatible">
 	<meta name="apple-touch-fullscreen" content="yes">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <!-- 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"> 
+    -->
 	<meta content="yes" name="apple-mobile-web-app-capable">
 	<meta content="black" name="apple-mobile-web-app-status-bar-style">
 	<!-- 禁止数字串被处理为电话号码 -->
@@ -18,6 +20,7 @@
 	<meta name="copyright" content="© 豆神"/>
 	<link rel="stylesheet" type="text/css" href="/css/webfont/style.css"/>
 	<link rel="stylesheet" type="text/css" href="/css/mobile/index.min.css"/>
+	<script type="text/javascript" src="/js/flexible.js"></script>
 	<script type="text/javascript" 
 	    src="/js/require.2.1.9-jquery.2.0.3-underscore.1.5.2-backbone.1.0.0.js"></script>
 	<script type="text/javascript" src="/js/mobile.js"></script>
@@ -31,7 +34,6 @@
 		    <header class="banner flex_box J_index_head">
                 <div class="top_user_info">
                 </div>
-                <a href="javascript:;" class="publish_btn"><span class="icon-edit"></span></a>
             </header>
 			<nav class="top_navgination flex_equal">
 				<a href="javascript:;" class="flex_item nav_item J_nav_movies current">电影</a>
@@ -51,8 +53,8 @@
 			<!--图书列表 -->
 			<section class="view J_books_area">
 			    <section class="feed_list clearfix J_books">
-			    	<ul class="books J_books_left"></ul>
-			    	<ul class="books J_books_right"></ul>
+			    	<ul class="books books-left J_books_left"></ul>
+			    	<ul class="books books-right J_books_right"></ul>
 			    </section>
 			    <a href="javascript:;" class="showMore J_books_more">获取更多内容</a>
 			</section>
@@ -107,5 +109,6 @@
 		});
 	</script>
 	<script type="text/javascript" src="/js/mobile/plugins.js"></script>
+	hotcss
 </body>
 </html>
